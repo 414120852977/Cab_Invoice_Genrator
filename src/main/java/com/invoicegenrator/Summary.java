@@ -3,9 +3,9 @@ package com.invoicegenrator;
 import java.util.Objects;
 
 public class Summary {
-    private final int noOfRides;
-    private final double TotalFare;
-    private final double averageFare;
+    public final int noOfRides;
+    public final double TotalFare;
+    public final double averageFare;
 
     public Summary(int noOfRides, double TotalFare) {
         this.noOfRides = noOfRides;
@@ -21,4 +21,12 @@ public class Summary {
         return noOfRides == summary.noOfRides && Double.compare(summary.TotalFare, TotalFare) == 0 && Double.compare(summary.averageFare, averageFare) == 0;
     }
 
+    @Override
+    public String toString() {
+        return "Summary{" +
+                "noOfRides=" + noOfRides +
+                ", TotalFare=" + TotalFare +
+                ", averageFare=" + averageFare +
+                '}';
+    }
 }

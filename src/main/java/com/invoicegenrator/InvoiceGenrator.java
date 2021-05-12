@@ -1,5 +1,10 @@
 package com.invoicegenrator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class InvoiceGenrator {
 
     private static final double MINIMUM_COST_PER_KM = 10.0;
@@ -15,19 +20,22 @@ public class InvoiceGenrator {
         }
     }
 
-    public double totalFare(InvoiceSummary[] invoiceSummarys) {
+    public double totalFare(Ride[] rides) {
         double totalFares = 0;
-        for (InvoiceSummary invoiceSummary : invoiceSummarys) {
-            totalFares += this.totalFare(invoiceSummary.distance, invoiceSummary.time);
+        for (Ride ride : rides) {
+            totalFares += this.totalFare(ride.distance, ride.time);
         }
         return totalFares;
     }
 
-    public Summary totalFares(InvoiceSummary[] invoiceSummarys) {
+    public Summary totalFares(Ride[] rides) {
         double totalFares = 0;
-        for (InvoiceSummary invoiceSummary : invoiceSummarys) {
-            totalFares += this.totalFare(invoiceSummary.distance, invoiceSummary.time);
+        for (Ride ride : rides) {
+            totalFares += this.totalFare(ride.distance, ride.time);
         }
-        return new Summary(invoiceSummarys.length,totalFares);
+        return new Summary(rides.length,totalFares);
+    }
+    public  void addingRide() {
+
     }
 }
