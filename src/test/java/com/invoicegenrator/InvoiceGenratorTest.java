@@ -27,4 +27,17 @@ public class InvoiceGenratorTest {
         double fare  =  invoiceGenrator.totalFare(distance,time);
         Assert.assertEquals(5,fare,0.0);
     }
+
+    /**
+     * invoice genrator should now take in multiple rides,and calculate aggregate total for all..
+     */
+    @Test
+    public void givenMultipleRides_ShouldReturnInvoiceSummary() {
+        InvoiceGenrator invoiceGenrator = new InvoiceGenrator();
+        InvoiceSummary[] invoiceSummarys = {new InvoiceSummary(2.0, 5),
+                                            new InvoiceSummary(0.1,1)
+        };
+        double fare = invoiceGenrator.totalFare(invoiceSummarys);
+        Assert.assertEquals(30,fare,0.0);
+    }
 }
