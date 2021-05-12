@@ -22,4 +22,12 @@ public class InvoiceGenrator {
         }
         return totalFares;
     }
+
+    public Summary totalFares(InvoiceSummary[] invoiceSummarys) {
+        double totalFares = 0;
+        for (InvoiceSummary invoiceSummary : invoiceSummarys) {
+            totalFares += this.totalFare(invoiceSummary.distance, invoiceSummary.time);
+        }
+        return new Summary(invoiceSummarys.length,totalFares);
+    }
 }
