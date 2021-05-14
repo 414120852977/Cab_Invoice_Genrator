@@ -68,4 +68,12 @@ public class InvoiceGenratorTest {
         Summary  summary =  invoiceGenrator.totalFares(rides);
         Assert.assertEquals(25,summary.TotalFare,0.0);
     }
+    /**
+     * premium rides and normal rides.
+     */
+    @Test
+    public void normalRideAndPremiumRide_ReturnBonus() {
+     int result =   invoiceGenrator.bonusRide(1,2);
+     Assert.assertEquals(15,result);
+    }
 }

@@ -1,10 +1,5 @@
 package com.invoicegenrator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class InvoiceGenrator {
 
     private static final double MINIMUM_COST_PER_KM = 10.0;
@@ -37,5 +32,17 @@ public class InvoiceGenrator {
     }
     public  void addingRide() {
 
+    }
+
+    public int bonusRide(int distance , int time) {
+        int bonus = 0;
+            double totalFare =  distance * MINIMUM_COST_PER_KM + time * COST_PER_TIME;
+        if(totalFare <= MINIMUM_FARE) {
+            bonus = 0;
+        }
+        else if (totalFare > MINIMUM_FARE) {
+            bonus = 15;
+        }
+        return bonus;
     }
 }
