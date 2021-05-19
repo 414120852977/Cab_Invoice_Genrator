@@ -1,18 +1,23 @@
 package com.invoicegenrator;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-public class RideRepositoryImpl implements  RideRepository {
-    List<Ride>  rides = new ArrayList<>();
-    @Override
-    public void addRide(Ride ride) {
-        rides.add(ride);
+public class RideRepositoryImpl  {
+
+    Map<String, Ride[]> userRides = new HashMap<>();
+
+    public void addRideForUser(String userId, Ride[] rides) throws InvoiceGeneratorException {
+        if (userRides.containsKey(userId))
+            throw new InvoiceGeneratorException(InvoiceGeneratorException.ExceptionType.USER_ALREADY_EXISTS,
+                    "User ID Already Exists!!!");
+        else
+            userRides.put(userId, rides);
     }
 
-    @Override
-    public List<Ride> getRide(int userId) {
-        return rides.stream().filter(ride -> ride.userId == userId).collect(Collectors.toList());
+
+    public Ride[] getRidesForUser(String userId) {
+        return userRides.get(userId);
     }
 }

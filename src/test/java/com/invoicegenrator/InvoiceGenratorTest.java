@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 public class InvoiceGenratorTest {
     InvoiceGenrator invoiceGenrator = null;
 
@@ -41,8 +39,8 @@ public class InvoiceGenratorTest {
      */
     @Test
     public void givenMultipleRides_ShouldReturnTotalAggregate() {
-        Ride[] rides = {new Ride(2.0, 5,1),
-                                            new Ride(0.1,1,1)
+        Ride[] rides = {new Ride(2.0, 5,1,RideType.PREMIUM),
+                                            new Ride(0.1,1,1,RideType.NORMAL)
         };
         double fare = invoiceGenrator.totalFare(rides);
         Assert.assertEquals(30,fare,0.0);
@@ -50,30 +48,38 @@ public class InvoiceGenratorTest {
 
     @Test
     public void givenMultipleRides_ShouldReturnInvoiceSummary() {
-        Ride[] rides = {new Ride(2.0, 5,1),
-                new Ride(0.1,1,1)
+        Ride[] rides = {new Ride(2.0, 5,1,RideType.NORMAL),
+                new Ride(0.1,1,1,RideType.NORMAL)
         };
-        Summary  summary =  invoiceGenrator.totalFares(rides);
-        Summary summary1 = new Summary(2, 30.0);
-        Assert.assertEquals(summary1,summary);
+        InvoiceSummary invoiceSummary =  invoiceGenrator.totalFares(rides);
+        InvoiceSummary invoiceSummary1 = new InvoiceSummary(2, 30.0,1);
+        Assert.assertEquals(invoiceSummary1, invoiceSummary);
     }
 
     @Test
     public void givenUserId_getsListOfRides_ShouldReturnInvoice() {
-        Ride[] rides = {new Ride(2.0, 5,1)
+        Ride[] rides = {new Ride(2.0, 5,1,RideType.PREMIUM),new Ride(4,6,2,RideType.PREMIUM)
         };
        RideRepositoryImpl rideRepository = new RideRepositoryImpl();
-       rideRepository.addRide(new Ride(2.0,5,1));
-        List<Ride> ride = rideRepository.getRide(1);
-        Summary  summary =  invoiceGenrator.totalFares(rides);
-        Assert.assertEquals(25,summary.TotalFare,0.0);
+        InvoiceSummary invoiceSummary =  invoiceGenrator.totalFares(rides);
+        Assert.assertEquals(71, invoiceSummary.totalFare,0.0);
+        Assert.assertEquals(1, invoiceSummary.userId,0.0);
     }
     /**
      * premium rides and normal rides.
      */
+
     @Test
-    public void normalRideAndPremiumRide_ReturnBonus() {
-     int result =   invoiceGenrator.bonusRide(1,2);
-     Assert.assertEquals(15,result);
+    public void givenPremiumAndNormalRideForUserId_ShouldReturnInvoiceSummary()  {
+
+        String[] userId = {"user1", "user2", "user3"};
+        Ride[][] rides = {{new Ride(5.0, 12, 1,RideType.PREMIUM), new Ride(2.5, 6,1, RideType.NORMAL)},
+                {new Ride(3.0, 5, 1,RideType.PREMIUM), new Ride(0.01, 1, 1,RideType.PREMIUM)},
+                {new Ride(10.0, 15,1, RideType.NORMAL), new Ride(2, 30,1, RideType.PREMIUM)}};
+        invoiceGenrator.addRideToRepository(userId, rides);
+        double summary = invoiceGenrator.invoiceForUser(userId[1]);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(rides[1].length, 75.0,1);
+        Assert.assertEquals(expectedInvoiceSummary, summary);
+
     }
 }
